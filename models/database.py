@@ -11,8 +11,8 @@ def create_database():
         sqlite3.connect(sqlite_db).close()
 
         # Reset the exitsting database. Mainly for testing local
-        if os.path.exists(sqlite_db):
-            os.remove(sqlite_db)
+        # if os.path.exists(sqlite_db):
+        #     os.remove(sqlite_db)
 
         connection = sqlite3.connect(sqlite_db)
         cursor = connection.cursor()
@@ -37,9 +37,6 @@ def create_database():
 
     except sqlite3.Error as error:
         print("Error creating database: ", error)
-
-
-
 
 
 def insert_question(question, answer, category):
@@ -132,6 +129,7 @@ def is_question_duplicate(question, cursor):
     result = cursor.fetchone()
 
     return result[0] > 0
+
 
 def search_questions(selected_category, search_query, cursor):
     if selected_category == 'all':
@@ -237,6 +235,7 @@ def load_questions_from_docx(docx_file, category):
 
     connection.commit()
     connection.close()
+
 
 def connect_to_database():
     connection = sqlite3.connect(sqlite_db)
