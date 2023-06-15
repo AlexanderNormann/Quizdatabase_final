@@ -21,7 +21,7 @@ def create_document(questions):
 
 
 def save_document(document):
-    desktop_dir = os.path.join(os.path.expanduser("~"), "Desktop")
+    desktop_dir = os.path.join(os.path.expanduser("~"), "Quizzer")
 
     folder_name = "quiz_documents"
     folder_path = os.path.join(desktop_dir, folder_name)
