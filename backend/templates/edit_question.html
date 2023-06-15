@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Question</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+<div class="menu">
+    <ul>
+        <li><a href="/print_database" class="btn">Print Database</a></li>
+        <li><a href="/submit_question" class="btn">Submit Question</a></li>
+        <li><a href="/select_questions" class="btn">Select Questions</a></li>
+        <li><a href="/upload_document" class="btn">Upload Document</a></li>
+    </ul>
+</div>
+    <h1 class="edit-question-title">Edit Question</h1>
+    <form class="edit-question-form" method="POST" action="/edit_question/{{ question[0] }}">
+        <label for="question" class="edit-question-label">Question:</label>
+        <input type="text" id="question" name="question" value="{{ question[1] }}" class="edit-question-input" required><br>
+        <label for="answer" class="edit-question-label">Answer:</label>
+        <input type="text" id="answer" name="answer" value="{{ question[2] }}" class="edit-question-input" required><br>
+         <label for="category" class="edit-question-label">Category:</label>
+        <select id="category" name="category" class="edit-question-input">
+             {% for category in categories %}
+            <option value="{{ category[0] }}" {% if selected_category == category[0] %}selected{% endif %}>{{ category[0] }}</option>
+            {% endfor %}
+        </select><br>
+        <input type="submit" value="Update" class="edit-question-submit">
+    </form>
+</body>
+</html>

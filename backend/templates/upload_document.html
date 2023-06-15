@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Document</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+        .popup {
+            display: none;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const popup = document.getElementById('popup');
+            const closeButton = document.querySelector('.popup-close button');
+
+            function showPopup() {
+        popup.style.display = 'block';
+    }
+
+    function hidePopup() {
+        popup.style.display = 'none';
+    }
+
+    closeButton.addEventListener('click', hidePopup);
+
+            const showPopupValue = '{{ show_popup }}';
+
+            if (showPopupValue === 'True') {
+        showPopup();
+    }
+});
+    </script>
+</head>
+<body>
+<div class="menu">
+    <ul>
+        <li><a href="/print_database" class="btn">Print Database</a></li>
+        <li><a href="/submit_question" class="btn">Submit Question</a></li>
+        <li><a href="/select_questions" class="btn">Select Questions</a></li>
+        <li><a href="/upload_document" class="btn">Upload Document</a></li>
+    </ul>
+</div>
+<h1 class="submit-question-title">Upload Document</h1>
+<div class="submit-question-body">
+    <div class="submit-question-form">
+        <form action="/upload_document" method="POST" enctype="multipart/form-data">
+            <label class="submit-question-label" for="document">Document:</label>
+            <input class="submit-question-input" type="file" name="document" id="document" required>
+            <br>
+            <label class="submit-question-label" for="category">Category:</label>
+            <input class="submit-question-input" type="text" name="category" id="category">
+            <br>
+            <input class="submit-question-submit" type="submit" value="Upload">
+        </form>
+    </div>
+</div>
+
+<div id="popup" class="popup">
+    <div class="popup-message">
+        Document uploaded and processed successfully!
+    </div>
+    <div class="popup-close">
+        <button>Close</button>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Question</title>
+    <link rel="stylesheet" href="../static/style.css">
+        <script>
+  document.addEventListener('DOMContentLoaded', function() {
+            const popup = document.getElementById('popup');
+            const closeButton = document.querySelector('.popup-close button');
+
+            function showPopup() {
+                popup.style.display = 'block';
+            }
+
+            function hidePopup() {
+                popup.style.display = 'none';
+            }
+
+            closeButton.addEventListener('click', hidePopup);
+
+            const showPopupValue = '{{ show_popup }}';
+
+            if (showPopupValue === 'True') {
+                showPopup();
+            }
+        });
+    </script>
+</head>
+<body class="submit-question-body">
+    <div class="menu">
+        <ul>
+        <li><a href="/print_database" class="btn">Print Database</a></li>
+        <li><a href="/submit_question" class="btn">Submit Question</a></li>
+        <li><a href="/select_questions" class="btn">Select Questions</a></li>
+        <li><a href="/upload_document" class="btn">Upload Document</a></li>
+        </ul>
+    </div>
+    <h1 class="submit-question-title">Submit Question</h1>
+    <form class="submit-question-form" method="POST" action="/submit_question">
+        <label class="submit-question-label" for="question">Question:</label>
+        <input class="submit-question-input" type="text" id="question" name="question" required>
+        <label class="submit-question-label" for="answer">Answer:</label>
+        <input class="submit-question-input" type="text" id="answer" name="answer" required>
+         <label class="submit-question-label" for="category">Category:</label>
+            <input class="submit-question-input" type="text" name="category" id="category">
+        </select>
+        <input class="submit-question-submit" type="submit" value="Submit">
+    </form>
+    <div id="popup" class="popup {% if show_popup %}popup-show{% endif %}">
+        <div class="popup-message">
+            Question is duplicate
+        </div>
+        <div class="popup-close">
+            <button>Close</button>
+        </div>
+</div>
+</body>
+</html>

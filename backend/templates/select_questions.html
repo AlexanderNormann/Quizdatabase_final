@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Questions</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="../static/js/select_questions.js"></script>
+</head>
+<body>
+<div class="menu">
+    <ul>
+        <li><a href="/print_database" class="btn">Print Database</a></li>
+        <li><a href="/submit_question" class="btn">Submit Question</a></li>
+        <li><a href="/select_questions" class="btn">Select Questions</a></li>
+        <li><a href="/upload_document" class="btn">Upload Document</a></li>
+    </ul>
+</div>
+    <h1>Select Questions</h1>
+    <form method="POST" action="/select_questions">
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+            <option value="all" {% if selected_category == 'all' %}selected{% endif %}>All</option>
+            {% for category in categories %}
+            <option value="{{ category[0] }}" {% if selected_category == category[0] %}selected{% endif %}>{{ category[0] }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="search" placeholder="Search..." value="{{ request.args.get('search', '') }}">
+        <button type="submit">Filter</button>
+    </form>
+
+    <form method="POST" action="/select_questions">
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date">
+
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date">
+
+        <label for="date_comparison">Date Comparison:</label>
+        <select id="date_comparison" name="date_comparison">
+            <option value="within">Within</option>
+<!--            <option value="outside">Outside</option>-->
+        </select>
+
+        <button type="submit">Apply Dates</button>
+        <button type="submit" name="show_all">Show All questions without date</button>
+
+    </form>
+
+    <form id="generate_document_form" onsubmit="event.preventDefault(); generateDocument();">
+            <table id="question_table" class="read-database-table">
+                <tr>
+                    <th>select</th>
+                    <th>Question</th>
+                    <th>Answer</th>
+                    <th>Category</th>
+                    <th>Last Used</th>
+                </tr>
+                {% if rows %}
+                    {% for row in rows %}
+                    <tr>
+                        <td><input type="checkbox" class="select-checkbox" name="question" value="{{ row[0] }}"></td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td id="last_used_{{ row[0] }}">{% if row[4] is not none %}{{ row[4][:19] }}{% else %}None{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">No questions found.</td>
+                    </tr>
+                {% endif %}
+            </table>
+            <button type="submit">Generate Document</button>
+        </form>
+    </div>
+
+      {% if total_pages > 1 %}
+    <div class="pagination">
+        {% if current_page != 1 %}
+            <a href="/select_questions?page=1">&laquo; First</a>
+            <a href="/select_questions?page={{ current_page - 1 }}">&lsaquo; Previous</a>
+        {% endif %}
+
+        {% for page_num in range(1, total_pages + 1) %}
+            {% if page_num == current_page %}
+                <a href="/select_questions?page={{ page_num }}" class="active">{{ page_num }}</a>
+            {% else %}
+                <a href="/select_questions?page={{ page_num }}">{{ page_num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if current_page != total_pages %}
+            <a href="/select_questions?page={{ current_page + 1 }}">Next &rsaquo;</a>
+            <a href="/select_questions?page={{ total_pages }}">Last &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</body>
+</html>
